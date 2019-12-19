@@ -4,20 +4,6 @@ import sys
 import math
 import pickle
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Waiting...
-print("Waiting for connection...")
-
-host = "127.0.0.1"
-port = 65432
-s.bind((host, port))
-s.listen(2)
-conn, addr = s.accept()
-
-print("Connected by:" , addr)      
-        
-
 """skapar variabler för rader & kolumnerna som skapas i boarden,
 blir lättare ifall man vill ändra storlek på boarden"""
 ROW_COUNT = 6
@@ -28,6 +14,8 @@ def game_board():
     board = np.zeros((ROW_COUNT,COLUMN_COUNT))
     return board
 
+def for_test_only():
+    return True
 
 #funktion som skapar "spelbrickan"
 def drop_disc(board, row, col, disc):
@@ -113,7 +101,20 @@ def receive_and_send():
         
         turn = (turn + 1)% 2      
         
-receive_and_send()
+
+if __name__ == '__main__':
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    print("Waiting for connection...")
+
+    host = "127.0.0.1"
+    port = 65432
+    s.bind((host, port))
+    s.listen(2)
+    conn, addr = s.accept()
+
+    print("Connected by:" , addr)      
+    receive_and_send()
                             
                                     
         
